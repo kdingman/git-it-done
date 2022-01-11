@@ -2,6 +2,33 @@ var userFormEl = document.querySelector("#user-form");
 var nameInputEl = document.querySelector("#username");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
+var languageButtonsEl = document.querySelector("#language-buttons");
+
+var formSubmitHandler = function(event) {
+    event.preventDefault();
+    // get value from input element
+    var username = nameInputEl.value.trim();
+
+    if(username) {
+        getUsersRepos(username);
+        nameInputEl.value = "";
+    }
+    else {
+        alert("Please enter a GitHub username");
+    }
+}
+
+var buttonClickHandler = function(event) {
+    // get the language attribute from the clicked element
+    var language = event.target.getAttribute("data-language");
+
+    if(language) {
+        getFeatureRepos(language);
+
+        // clear old content
+        repoContainerEl.textContent = "";
+    }
+};
 
 var getUsersRepos = function(user) {
     // format the github api url
@@ -26,20 +53,20 @@ var getUsersRepos = function(user) {
         });
 }
 
-var formSubmitHandler = function(event) {
-    event.preventDefault();
-    // get value from input element
-    var username = nameInputEl.value.trim();
+var getFeatureRepos = function(language) {
+    var apiUrl = "https://api.github.com/search/repositories?q=" + language + "is:featured&sort=help-wanted-issues";
 
-    if(username) {
-        getUsersRepos(username);
-        nameInputEl.value = "";
-    }
-    else {
-        alert("Please enter a GitHub username");
-    }
-    console.log(event);
-}
+    fetch(apiUrl).then(function(response) {
+        if(response.ok){
+            response.json().then(function(data) {
+                displayRepos(data.items, language);
+            });
+        }
+        else {
+            alert('Error: GitHub User Not Found');
+        }
+    }) ;
+};
 
 var displayRepos = function(repos, searchTerm){
     // check if api returned any repos
@@ -90,4 +117,7 @@ var displayRepos = function(repos, searchTerm){
     console.log(searchTerm);
 }
 
+
+
 userFormEl.addEventListener("submit", formSubmitHandler);
+languageButtonsEl.addEventListener("click", buttonClickHandler);
