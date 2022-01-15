@@ -67,7 +67,7 @@ var displayIssues = function(issues){
 
     // check if issue is an actual issue or a pull request
     if(issues[i].pull_request) {
-        typeEl.textContent = "(PUll Request)";
+        typeEl.textContent = "(Pull Request)";
     }
     else {
         typeEl.textContent = "(Issue)";
@@ -83,7 +83,7 @@ var displayIssues = function(issues){
 
 var displayWarning = function(repo) {
     // add text to warning container
-    liimitWarningEl.textContent = "To see more than 30 issues, visit ";
+    limitWarningEl.textContent = "To see more than 30 issues, visit ";
 
     var linkEl = document.createElement("a");
     linkEl.textContent = "GitHub.com";
@@ -91,7 +91,7 @@ var displayWarning = function(repo) {
     linkEl.setAttribute("target", "_blank");
 
     // append to warning container
-    liimitWarningEl.appendChild(linkEl);
+    limitWarningEl.appendChild(linkEl);
 };
 
 getRepoName();

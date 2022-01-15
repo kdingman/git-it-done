@@ -20,14 +20,14 @@ var formSubmitHandler = function(event) {
     else {
         alert("Please enter a GitHub username");
     }
-}
+};
 
 var buttonClickHandler = function(event) {
     // get the language attribute from the clicked element
     var language = event.target.getAttribute("data-language");
 
     if(language) {
-        getFeatureRepos(language);
+        getFeaturedRepos(language);
 
         // clear old content
         repoContainerEl.textContent = "";
@@ -54,9 +54,9 @@ var getUsersRepos = function(user) {
             // Notice this '.catch()' getting chained onto the end of the '.then()' method
             alert("Unable to connect to GitHub");
         });
-}
+};
 
-var getFeatureRepos = function(language) {
+var getFeaturedRepos = function(language) {
     var apiUrl = "https://api.github.com/search/repositories?q=" + language + "is:featured&sort=help-wanted-issues";
 
     fetch(apiUrl).then(function(response) {
@@ -68,7 +68,7 @@ var getFeatureRepos = function(language) {
         else {
             alert("Error: " + response.statusText);
         }
-    }) ;
+    });
 };
 
 var displayRepos = function(repos, searchTerm){
